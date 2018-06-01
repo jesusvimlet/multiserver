@@ -25,6 +25,7 @@ This project is still in beta:
 
 * Direct download:
     Download from /release:
+    
         - multi-server-0.0.1.zip for linux.
         - MultiServer-0.0.1-win.zip for windows.
 
