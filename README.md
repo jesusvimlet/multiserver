@@ -14,7 +14,8 @@ A fast local server which allows you to open several servers from local folders.
 ## Disclaimer
 
 This project is still in beta:
-    * Frameworks are not minified.a
+
+    * Frameworks are not minified.
     * Commented code here and there.
 
 ## Installation
