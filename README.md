@@ -15,24 +15,28 @@ A fast local server which allows you to open several servers from local folders.
 
 This project is still in beta:
 
-    * Frameworks are not minified.
-    * Commented code here and there.
+* Frameworks are not minified.
+* Commented code here and there.
 
 ## Installation
 
-* NPM:
+1. Direct download:
+
+    Download from /release:
+
+- [multi-server-0.0.1.zip](https://github.com/jesusvimlet/multiserver/raw/master/release/multi-server-0.0.1.zip) for linux.
+- [MultiServer-0.0.1-win.zip](https://github.com/jesusvimlet/multiserver/raw/master/release/MultiServer-0.0.1-win.zip) for windows.
+
+
+2. NPM:
+
     WIP
 
-* Direct download:
-    Download from /release:
-    
-        - multi-server-0.0.1.zip for linux.
-        - MultiServer-0.0.1-win.zip for windows.
 
 ## Usage
 
-    Run the application and add as many servers as you wish.
+Run the application and add as many servers as you wish.
 
 ## LICENSE
 
-    Developed under MIT license.
+Developed under MIT license.
