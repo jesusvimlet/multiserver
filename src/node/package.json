@@ -1,0 +1,73 @@
+{
+  "name": "multi-server",
+  "productName": "MultiServer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . --out=../../release/packager/win",
+    "pack:o": "electron-packager . --overwrite --out=../../release/packager/win",
+    "installer": "electron-forge make",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . multi-server --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.ProductName=\"MultiServer\"",
+    "package-linux": "electron-packager . multi-server --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "build": "electron-builder",
+    "build:linux": "electron-builder -l",
+    "build:windows": "electron-builder -w",
+    "build:both": "electron-builder -w -l",
+    "build:dir": "electron-builder --dir"
+  },
+  "bin": {
+    "multi-server": "./index.js"
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "query-selector": "1.0.9",
+    "serve-index": "1.9.1"
+  },
+  "devDependencies": {
+    "chai-files": "^1.4.0",
+    "electron": "^1.8.6",
+    "electron-reload": "1.2.2",
+    "eslint": "^4.8.0",
+    "husky": "^0.14.3",
+    "intern": "^3.4.6",
+    "npm-run-all": "^4.1.1",
+    "prettier": "^1.7.4",
+    "electron-packager": "12.0.1",
+    "electron-builder": "20.13.4"
+  },
+  "author": "Jesus Perez Felipe",
+  "license": "MIT",
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "rules": {
+      "quotes": [
+        2,
+        "double"
+      ],
+      "no-undef": "off",
+      "no-useless-escape": "off",
+      "no-console": "off"
+    }
+  },
+  "eslintIgnore": [
+    "**/node_modules/**"
+  ],
+  "build": {
+    "appId": "com.multiserver.app",
+    "directories":{
+      "output":"../../release"
+    },
+    "win": {
+      "target": "zip"
+    },
+    "linux": {
+      "target": "zip"
+    },
+    "mac": {
+      "target": "zip"
+    }
+  }
+}

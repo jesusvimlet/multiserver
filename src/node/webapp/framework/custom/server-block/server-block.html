@@ -1,0 +1,389 @@
+<style>
+    server-block {
+        width: 100%;
+        height: auto;
+        background-color: #464646;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    #server-address {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+
+    #server-address vc-text {
+        /* width: calc(100% - 30px); */
+        width: 100%;
+    }
+
+    #server-address vc-text .vc-text-main,
+    #server-address vc-text .vc-text-underline {
+        margin-right: 30px;
+    }
+
+    #browse {
+        cursor: pointer;
+        margin-top: 30px;
+        position: absolute;
+        right: 10px;
+    }
+
+    #browse .vc-button-button {
+        display: none;
+    }
+
+    #browse i:hover {
+        color: #18c796;
+    }
+
+    #server-status {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #server-status .customTextBlock {
+        margin-left: 10px;
+    }
+
+
+    #server-buttons {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        /* position: absolute; */
+        right: 10px;
+    }
+
+    #remove {
+        margin-left: auto;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #open,
+    #openNet {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    #open:hover,
+    #openNet:hover {
+        color: #18c796;
+    }
+
+    #port {
+        margin-bottom: 10px;
+        max-width: 80px;
+        min-width: 80px !important;
+    }
+
+    .customTextBlock {
+        height: 61px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .customTextBlock-label {
+        font-size: 15px;
+        height: 18px;
+        margin-bottom: 5px;
+        flex-grow: 0;
+        display: flex;
+    }
+
+    .customTextBlock-row {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        padding: 10px 10px 10px 0px;
+        box-sizing: border-box;
+    }
+
+
+
+    .customTextRow {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .customTextRow-label {
+        font-size: 15px;
+        margin-right: 10px;
+        line-height: 39px;
+    }
+
+    .customTextRow-row {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        padding: 10px 10px 10px 0px;
+        box-sizing: border-box;
+    }
+
+
+    .customTextBlock-text {
+        margin-right: 10px;
+    }
+
+    .server-offline {
+        text-decoration: line-through !important;
+        cursor:initial !important;
+     color: #747474 !important;
+    }
+
+
+    @media only screen and (max-width: 490px) {
+
+        .customTextBlock-row {
+            flex-direction: column;
+        }
+        .customTextBlock-label {
+            margin-bottom: 0px;
+        }
+    }
+</style>
+
+<template>
+    <div id="server-buttons">
+        <div class="customTextRow">
+            <div class="customTextRow-label">Web server</div>
+            <div class="customTextRow-row">
+                <vc-toggle label="Stopped"></vc-toggle>
+            </div>
+        </div>
+        <i class="material-icons" id="remove" onclick="this.parentNode.parentNode.remove();">clear</i>
+    </div>
+    <div id="server-address">
+        <vc-button class="material-icons" id="browse">
+            <i class="material-icons" value="Open" onclick="this.parentNode.parentNode.parentNode.browse();">folder</i>
+        </vc-button>
+        <vc-text label="Enter folder" placeholder="folder" onkeyup="this.parentNode.parentNode.setSrc();"></vc-text>
+    </div>
+    </div>
+    <div id="server-status">
+        <vc-text id="port" label="Enter port" placeholder="port"></vc-text>
+        <div class="customTextBlock">
+            <div class="customTextBlock-label">Server URLs</div>
+            <div class="customTextBlock-row">
+                <div class="customTextBlock-text server-offline" id="open" onclick="this.parentNode.parentNode.parentNode.parentNode.open();">localhost</div>
+                <div class="customTextBlock-text server-offline" id="openNet" onclick="this.parentNode.parentNode.parentNode.parentNode.open();">net</div>
+            </div>
+        </div>
+    </div>
+    <iframe style="display:none" ;></iframe>
+</template>
+
+<script>
+    vcomet.element("server-block", null, {
+
+        properties: {
+            src: {
+                value: "",
+                reflect: true
+            },
+            servercontainer: {
+                value: null,
+                reflect: false
+            },
+            state: {
+                value: "off",
+                reflect: true
+            },
+            port: {
+                value: "",
+                reflect: true
+            },
+            launchonstart: {
+                value: false,
+                reflect: true
+            }
+        },
+
+        privateProperties: {
+            refs: {
+                value: {}
+            }
+        },
+
+        functions: {
+            createServer: function () {
+                var el = this;
+                server.launchServer(el);
+            },
+            stopServer: function () {
+                var el = this;
+                server.killServer(el);
+            },
+            remove: function () {
+                var el = this;
+                el._disable([el._refs.folder, el._refs.browse, el._refs.port, el._refs.state, el._refs.remove]);
+                server.removeServer(el);
+                el.servercontainer.removeData(el.port);
+                document.querySelector("vc-scroll").update();
+            },
+            status: function (state) {
+                var el = this;
+                el.state = state;
+                switch (state) {
+                    case "loading":
+                        el._disable([el._refs.folder, el._refs.browse, el._refs.port, el._refs.state]);
+                        el._refs.state.label = "Loading";
+                        el._toggleUrlLink(false);
+                        break;
+                    case "running":
+                        el._refs.state.label = "Running";
+                        el._toggleUrlLink(true);
+                        el._disable([el._refs.folder, el._refs.browse, el._refs.port]);
+                        el.setIframe();
+                        break;
+                    case "off":
+                        el._disable([]);
+                        el._refs.state.label = "Stopped";
+                        el._toggleUrlLink(false);
+                        break;
+                    default:
+                        el._disable([]);
+                        el._refs.state.label = "Stopped";
+                        el._toggleUrlLink(false);
+                        break;
+                }
+                el.servercontainer.addData(el);
+            },
+            setSrc: function () {
+                var el = this;
+                el.src = el._refs.folder.value;
+                el.servercontainer.addData(el);
+            },
+            setPort: function () {
+                var el = this;
+                if (el.servercontainer.isPortAvailable(el._refs.port.value) || el._refs.port.value === el.port) {
+                    el.servercontainer.removeData(el.port);
+                    el.port = el._refs.port.value;
+                    el.servercontainer.addData(el);
+                } else {
+                    el._refs.port.querySelector("input").focus();
+                    el._refs.port.querySelector(".vc-text-label").style.color = "red";
+                    el._disable([el._refs.folder, el._refs.browse, el._refs.state]); // Disable buttons if port is not correct.
+                }
+            },
+            setIframe: function () {
+                var el = this;
+                el._refs.iframe.src = "";
+                var url = "http://localhost:" + el.port;
+                if (el._refs.folder.value && el._refs.folder.value != "") {
+                    el._refs.iframe.src = url;
+                }
+            },
+            open: function () {
+                var el = this;
+                if (el.state === "running") {
+                    window.open("http://localhost:" + el.port);
+                }
+            },
+            browse: function () {
+                var el = this;
+                dialog.showOpenDialog({
+                    properties: ['openDirectory']
+                }, function (paths) {
+                    if (paths) {
+                        el._refs.folder.setValue(paths[0]);
+                        el.setSrc();
+                    }
+                });
+            }
+        },
+
+        privateFunctions: {
+            init: function () {
+                var el = this;
+                el._setOpenUrl();
+                // el._refs.port.placeholder = el.port; // TODO Use this instead of value when it works
+                el._refs.port.setValue(el.port);
+                el._portListener()
+                el._stateListener();
+                if (el.launchonstart) {
+                    el._refs.state.check = true;
+                }
+            },
+            toggleUrlLink: function (toggleTo) {
+                var el = this;
+                if (toggleTo) {
+                    el._refs.open.classList.remove("server-offline");
+                    el._refs.openNet.classList.remove("server-offline");
+                } else {
+                    el._refs.open.classList.add("server-offline");
+                    el._refs.openNet.classList.add("server-offline");
+                }
+            },
+            //@function portListener [Liestener for port modification by user]
+            portListener: function () {
+                var el = this;
+                el._refs.port.querySelector("input").addEventListener("blur", function () {
+                    el.setPort();
+                    el._setOpenUrl();
+                });
+                el._refs.port.querySelector("input").addEventListener("keydown", function () {
+                    el._modifyingPort();
+                });
+            },
+            //@function modifyinPort [While modifying port, configuration when wrong port inserted must be reset]
+            modifyingPort: function () {
+                var el = this;
+                el._refs.port.querySelector(".vc-text-label").style = "";
+            },
+            setOpenUrl: function () {
+                var el = this;
+                el._refs.folder.setValue(el.src);
+                el._refs.open.innerText = "http://localhost:" + el.port;
+                el._refs.openNet.innerText = "http://" + server.myIp + ":" + el.port;
+            },
+            setRefs: function () {
+                var el = this;
+                el._refs.folder = el.querySelector("vc-text");
+                el._refs.browse = el.querySelector("#browse");
+                el._refs.remove = el.querySelector("#remove");
+                el._refs.open = el.querySelector("#open");
+                el._refs.openNet = el.querySelector("#openNet");
+                el._refs.port = el.querySelector("#port");
+                el._refs.iframe = el.querySelector("iframe");
+                el._refs.state = el.querySelector("vc-toggle");
+            },
+            disable: function (objs) {
+                var el = this;
+                el._refs.folder.disabled = false;
+                el._refs.remove.disabled = false;
+                el._refs.browse.disabled = false;
+                el._refs.open.disabled = false;
+                el._refs.openNet.disabled = false;
+                el._refs.port.disabled = false;
+                el._refs.state.disabled = false;
+                objs.forEach(function (obj) {
+                    obj.disabled = true;
+                });
+            },
+            stateListener: function () {
+                var el = this;
+                el._refs.state.onCheck(function () {
+                    el.createServer();
+                });
+                el._refs.state.onUncheck(function () {
+                    el.stopServer();
+                });
+            }
+        },
+
+        onCreated: function () {},
+
+        onReady: function () {
+            var el = this;
+            el._setRefs();
+            el._init();
+        }
+
+
+    });
+</script>

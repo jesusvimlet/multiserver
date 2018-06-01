@@ -1,0 +1,463 @@
+<style>
+    @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        src: url('fonts/Roboto/Roboto-Regular.ttf');
+    }
+
+    body {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        overflow: hidden;
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #2d2d2d;
+    }
+
+    server-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        border: 1px solid #18c796;
+        box-sizing: border-box;
+    }
+
+
+    #add {
+        width: 100%;
+        padding: 10px 20px 10px 20px;
+        box-sizing: border-box;
+        position: relative;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+        z-index: 101;
+        background-color: #2d2d2d;
+    }
+
+    #fakeShadow {
+        background-color: transparent;
+        width: calc(100% - 20px);
+        height: 58px;
+        position: absolute;
+        z-index: 100;
+        left: 10px;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.75);
+    }
+
+    #content {
+        height: calc(100% - 60px);
+        position: relative;
+    }
+
+    vc-scroll {
+        height: calc(100% - 58px) !important;
+    }
+
+    #menu {
+        width: 100%;
+        height: 60px;
+        background-color: #18c796;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-app-region: drag;
+    }
+
+    #menuTitle {
+        flex-grow: 1;
+        height: 100%;
+        text-align: center;
+        line-height: 60px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    #menuButton {
+        margin-left: 10px;
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+    }
+
+    #menuBox {
+        position: absolute;
+        background-color: #464646;
+        height: 0px;
+        overflow: hidden;
+        box-sizing: border-box;
+        width: auto;
+        padding: 0px 10px 0px 10px;
+        min-width: 200px;
+        top: 60px;
+        left: 0px;
+        z-index: 300;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #menuBox>div,
+    #menuBox>a {
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #menuBox>div:hover,
+    #menuBox>a:hover {
+        color: #18c796;
+    }
+
+    #menuBox hr {
+        width: 100%;
+    }
+
+    #menuBox a {
+        text-decoration: none;
+        color: white;
+    }
+
+    #menuWrap {
+        z-index: 299;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 60px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+    }
+
+    #credits {
+        position: absolute;
+        background-color: #dedede;
+        color: black;
+        padding: 10px;
+        padding-top: 20px;
+        padding-bottom: 200px;
+        z-index: 300;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        display: none;
+    }
+
+    .credits-close {
+        display: flex;
+        cursor: pointer;
+    }
+
+    .credits-close i {
+        margin-left: auto;
+    }
+
+    .credits-show {
+        display: block !important;
+    }
+
+    #creditsWrap {
+        z-index: 299;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 60px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+    }
+
+    @keyframes showMenu {
+        0% {
+            height: 0px;
+        }
+        100% {
+            height: 206px;
+        }
+    }
+
+    @-webkit-keyframes showMenu {
+        0% {
+            height: 0px;
+        }
+        100% {
+            height: 206px;
+        }
+    }
+
+    .menuBox-show {
+        animation: showMenu 0.25s forwards;
+        -webkit-animation: showMenu 0.25s forwards;
+    }
+
+    #container {
+        padding: 10px 20px 0px 20px;
+        box-sizing: border-box;
+    }
+
+    #minMaxBtts {
+        display: flex;
+        height: 100%;
+        -webkit-app-region: no-drag;
+    }
+
+    #minMaxBtts i {
+        margin-top: 2px;
+        font-size: 16px;
+        margin-left: 9px;
+        cursor: default;
+    }
+
+
+    .custom-icon-container {
+        width: 35px;
+        height: 20px;
+    }
+
+    .custom-icon-container:hover {
+        background-color: #7ce4c7;
+    }
+
+    .custom-icon {
+        width: 10px;
+        margin: auto;
+    }
+
+    .custom-icon-minimize {
+        height: 12px;
+        border-bottom: 2px solid;
+    }
+
+    .custom-icon-maximize {
+        margin-top: 4px;
+        height: 8px;
+        border: 2px solid;
+    }
+
+    .vc-scroll-verticalBar {
+        background-color: #464646 !important;
+    }
+
+    vc-toggle .vc-toggle-toggle:checked~.vc-toggle-label {
+        background: #3c6358 !important;
+    }
+
+
+
+    @media only screen and (max-height: 590px) {
+        #credits {
+            padding: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+</style>
+
+<template>
+    <div id="menu">
+        <i class="material-icons" id="menuButton" onclick="this.parentNode.parentNode.toggleMenuBox();">menu</i>
+        <div id="menuTitle">Multi - Server</div>
+        <div id="minMaxBtts">
+            <div class="custom-icon-container" onclick="document.querySelector('server-container').appMessage('minimize');">
+                <div class="custom-icon custom-icon-minimize"></div>
+            </div>
+            <div class="custom-icon-container" onclick="document.querySelector('server-container').appMessage('maximize');">
+                <div class="custom-icon custom-icon-maximize"></div>
+            </div>
+            <div class="custom-icon-container" onclick="document.querySelector('server-container').appMessage('hide');">
+                <i class="material-icons">close</i>
+            </div>
+        </div>
+    </div>
+    <div id="menuBox">
+        <hr>
+        <div onclick="document.querySelector('server-container').appMessage('reload'); document.querySelector('server-container').toggleMenuBox();">Refresh</div>
+        <hr>
+        <a href="mailto:issues@jperefel.com?Subject=multiserver" target="_top" onclick=" document.querySelector('server-container').toggleMenuBox();">Report issue</a>
+        <hr>
+        <div onclick="document.querySelector('server-container').toggleCredits(true); document.querySelector('server-container').toggleMenuBox();">Credits</div>
+        <hr>
+        <div onclick="document.querySelector('server-container').appMessage('exit');">Exit</div>
+        <hr>
+    </div>
+    <div id="menuWrap" onclick="this.parentNode.toggleMenuBox();"></div>
+    <div id="creditsWrap" onclick="document.querySelector('server-container').toggleCredits(false);"></div>
+    <div id="credits">
+        <div class="credits-close" onclick="document.querySelector('server-container').toggleCredits(false);">
+            <i class="material-icons">close</i>
+        </div>
+        This is the very first application developed using
+        <a href="https://vimlet.com/vcomet">vComet</a>.</br>
+        </br>
+        It is licensed under MIT license.</br>
+        </br>
+        Developed by Jesús Pérez Felipe.
+    </div>
+    <div id="content">
+        <vc-button id="add" value="Add" onclick="document.querySelector('server-container').add();"></vc-button>
+        <vc-scroll thickness="8">
+            <div id="container"></div>
+        </vc-scroll>
+    </div>
+</template>
+
+<script>
+    vcomet.element("server-container", null, {
+
+        properties: {
+            servers: {
+                value: {},
+                reflect: true
+            }
+        },
+
+        privateProperties: {
+            refs: {
+                value: {}
+            },
+            minport: {
+                value: 8081
+            },
+            maxport: {
+                value: 8099
+            },
+            misc: {
+                value: {}
+            }
+        },
+
+        functions: {
+            add: function (localServer) {
+                var el = this;
+                var newServer = document.createElement("server-block");
+                newServer.servercontainer = el;
+                if (localServer) {
+                    newServer.port = localServer.port;
+                    newServer.src = localServer.url;
+                    if (localServer.state != "off") {
+                        newServer.launchonstart = true;
+                    }
+                    newServer.onReady(function () {
+                        el._childCreated();
+                    });
+                } else {
+                    newServer.port = el._getEmptyPort();
+                }
+                el._refs.container.insertBefore(newServer, el._refs.container.firstChild);
+                document.querySelector("vc-scroll").update();
+                el.addData(newServer);
+            },
+            addData: function (serverBlock) {
+                var el = this;
+                var serversData = store.get('servers');
+                serversData[serverBlock.port] = {
+                    'port': serverBlock.port,
+                    'url': serverBlock.src,
+                    'state': serverBlock.state
+                };
+                el._saveData(serversData);
+            },
+            removeData: function (port) {
+                var el = this;
+                var serversData = store.get('servers');
+                delete serversData[port];
+                el._saveData(serversData);
+            },
+            isPortAvailable: function (currentPort) {
+                var el = this;
+                if (!el.servers[currentPort]) {
+                    return true;
+                }
+                return false;
+            },
+            toggleMenuBox: function () {
+                var el = this;
+                el._refs.menuBox.classList.toggle("menuBox-show");
+                if (el._refs.menuBox.classList.contains("menuBox-show")) {
+                    el._refs.menuWrap.style.display = "block";
+                } else {
+                    el._refs.menuWrap.style.display = "none";
+                }
+            },
+            toggleCreditsBox: function () {
+                var el = this;
+                if (el._refs.credits.classList.contains("credits-show")) {
+                    el._refs.creditsWrap.style.display = "block";
+                } else {
+                    el._refs.creditsWrap.style.display = "none";
+                }
+            },
+            appMessage: function (mess) {
+                ipcRenderer.send('asynchronous-message', mess);
+            },
+            toggleCredits: function (toggleTo) {
+                console.log("toggleCredits");
+                var el = this;
+                if (toggleTo) {
+                    el._refs.credits.classList.add("credits-show");
+                } else {
+                    el._refs.credits.classList.remove("credits-show");
+                }
+                el.toggleCreditsBox();
+            }
+        },
+
+        privateFunctions: {
+            init: function () {
+                var el = this;
+                el._misc.savedChilds = 0;
+                for (var key in el.servers) {
+                    el._misc.savedChilds++;
+                    el.add(el.servers[key]);
+                }
+                el._setRefs();
+            },
+            setRefs: function () {
+                var el = this;
+                el._refs.menuBox = el.querySelector("#menuBox");
+                el._refs.menuWrap = el.querySelector("#menuWrap");
+                el._refs.credits = el.querySelector("#credits");
+                el._refs.creditsWrap = el.querySelector("#creditsWrap");
+            },
+            getEmptyPort: function () {
+                var el = this;
+                for (var portRangeI = el._minport; portRangeI < el._maxport; portRangeI++) {
+                    if (el.isPortAvailable(portRangeI)) {
+                        return portRangeI;
+                    }
+                }
+            },
+            saveData: function (serversData) {
+                var el = this;
+                store.set(serversData);
+            },
+            childCreated: function () {
+                var el = this;
+                el._misc.savedChilds--;
+                if (el._misc.savedChilds <= 0) {
+                    setTimeout(function () {
+                        vcomet.triggerCallback("ondrawn", el, el, [el]);
+                        document.querySelector("vc-scroll").update();
+                    }, 0);
+                }
+            }
+        },
+
+        onCreated: function () {
+            vcomet.createCallback("ondrawn", this);
+        },
+
+        onReady: function () {
+            var el = this;
+            el._refs.container = document.querySelector("#container");
+            el.servers = store.get('servers');
+            el._init();
+        }
+
+
+    });
+</script>

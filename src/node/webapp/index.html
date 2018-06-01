@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Multi Server</title>
+  <script src="framework/vcomet/vcomet.js"></script>
+  <link rel="stylesheet" href="framework/materialIcons/material-icons.css">
+  <script>
+    vcomet.import([
+      "framework/custom/server-container",
+      "framework/custom/server-block",
+      "framework/vcomet/ui/vc-scroll",
+      "framework/vcomet/ui/vc-text",
+      "framework/vcomet/ui/vc-button",
+      "framework/vcomet/ui/vc-toggle"
+    ]);
+  </script>
+  <script>
+    const {
+      ipcRenderer
+    } = require('electron');
+    var server = require('../server/index.js');
+    var store = require('../lib/store.js').instance();    
+    const {dialog} = require('electron').remote;
+  </script>
+</head>
+
+<body>
+  <server-container></server-container>
+
+</html>
