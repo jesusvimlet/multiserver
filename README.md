@@ -1,6 +1,6 @@
 ## MultiServer
 
-Fast local server which allows you to open several servers from local folders.
+A fast local server which allows you to open several servers from local folders.
 
 ## Features
 
@@ -8,7 +8,14 @@ Fast local server which allows you to open several servers from local folders.
 * Run server from local folders.
 * As many servers as you want.
 * Network access.
-* File sharing at local network.
+* File sharing at the local network.
+
+
+## Disclaimer
+
+This project is still in beta:
+    * Frameworks are not minified.a
+    * Commented code here and there.
 
 ## Installation
 
