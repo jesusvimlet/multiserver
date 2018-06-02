@@ -2,6 +2,8 @@
 
 A fast local server which allows you to open several servers from local folders.
 
+![MultiServer](multiserver.png)
+
 ## Features
 
 * Easy to use.
@@ -30,7 +32,14 @@ This project is still in beta:
 
 2. NPM:
 
-    WIP
+    
+```npm i multi-server-installer -g```
+
+Run 
+
+```multiserver i```
+
+ wherever you want to have it installed. You can also specify installation folder.
 
 
 ## Usage

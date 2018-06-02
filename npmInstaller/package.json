@@ -1,7 +1,7 @@
 {
   "name": "multi-server-installer",
   "productName": "MultiServerInstaller",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {},
