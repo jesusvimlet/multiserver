@@ -246,7 +246,12 @@
         background: #3c6358 !important;
     }
 
-
+.link{
+    text-decoration: underline;
+    color:blue;
+    cursor:pointer;
+    display:inline-block;
+}
 
     @media only screen and (max-height: 590px) {
         #credits {
@@ -275,7 +280,7 @@
     </div>
     <div id="menuBox">
         <hr>
-        <div onclick="document.querySelector('server-container').appMessage('reload'); document.querySelector('server-container').toggleMenuBox();">Refresh</div>
+        <div onclick="document.querySelector('server-container').appMessage('reload'); document.querySelector('server-container').toggleMenuBox();">Reload servers</div>
         <hr>
         <a href="mailto:issues@jperefel.com?Subject=multiserver" target="_top" onclick=" document.querySelector('server-container').toggleMenuBox();">Report issue</a>
         <hr>
@@ -291,11 +296,13 @@
             <i class="material-icons">close</i>
         </div>
         This is the very first application developed using
-        <a href="https://vimlet.com/vcomet">vComet</a>.</br>
+        <div class="link" onclick="shell.openExternal('https://vimlet.com/vcomet');">vComet</div>.</br>
         </br>
         It is licensed under MIT license.</br>
         </br>
-        Developed by Jesús Pérez Felipe.
+        Developed by <div class="link" onclick="shell.openExternal('http://jperefel.com');">Jesús Pérez Felipe</div>.</br>
+    </br>
+        Find the project on <div class="link" onclick="shell.openExternal('https://github.com/jesusvimlet/multiserver');">GitHub</div>.
     </div>
     <div id="content">
         <vc-button id="add" value="Add" onclick="document.querySelector('server-container').add();"></vc-button>

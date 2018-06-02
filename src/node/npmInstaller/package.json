@@ -1,0 +1,21 @@
+{
+  "name": "multi-server-installer",
+  "productName": "MultiServerInstaller",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "xmlhttprequest": "1.8.0",
+    "@vimlet/cli": "1.2.4",
+    "@vimlet/commons": "2.6.4",
+    "readline-sync": "1.4.9",
+    "sync": "0.2.5",
+    "fs-extra": "6.0.1"
+  },
+  "bin": {
+    "multiserver": "./index.js"
+  },
+  "author": "Jesus Perez Felipe",
+  "license": "MIT"
+}
