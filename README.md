@@ -28,7 +28,7 @@ This project is still in beta:
 
 - [multi-server-0.0.1.zip](https://github.com/jesusvimlet/multiserver/raw/master/release/multi-server-0.0.1.zip) for linux.
 - [MultiServer-0.0.1-win.zip](https://github.com/jesusvimlet/multiserver/raw/master/release/MultiServer-0.0.1-win.zip) for windows.
-
+- Mac version is not released but you are free to clone the project and use electron-builder to bake it.
 
 2. NPM:
 
