@@ -22,6 +22,10 @@ This project is still in beta:
 
 ## Installation
 
+1. Clone the project.
+2. ´npm run build´
+
+**Outdated**
 1. Direct download:
 
     Download from /release:
